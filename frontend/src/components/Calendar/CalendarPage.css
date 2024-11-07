@@ -1,0 +1,51 @@
+/* frontend/src/components/Calendar/CalendarPage.css */
+
+.react-calendar {
+    width: 100%;
+    max-width: 800px;
+    background-color: white;
+    border: 1px solid #a0a096;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.125em;
+  }
+  
+  .react-calendar__tile--now {
+    background: #ffc;
+  }
+  
+  .react-calendar__tile--active {
+    background: #006edc;
+    color: white;
+  }
+  
+  .react-calendar__tile--hasActive {
+    background: #006edc;
+    color: white;
+  }
+
+  /* Add a dot to dates with events */
+.react-calendar__tile--hasEvents {
+    position: relative;
+  }
+  
+  .react-calendar__tile--hasEvents::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background-color: #2185d0;
+    border-radius: 50%;
+  }
+
+  .event-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #2185d0;
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-top: 2px;
+  }
+  

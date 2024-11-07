@@ -1,125 +1,86 @@
-// frontend/src/components/Calendar/CalendarContext.js
+// frontend/src/contexts/CalendarContext.js
 
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { io } from 'socket.io-client';
+import { toast } from 'react-toastify';
 
 // Create the Calendar Context
 export const CalendarContext = createContext();
 
-// Socket.io server URL
-const SOCKET_SERVER_URL = 'http://localhost:5000'; // Update with your backend URL
-
-// Auth token retrieval function
-const getAuthToken = () => {
-  return localStorage.getItem('token');
-};
-
 // Calendar Provider Component
 export const CalendarProvider = ({ children }) => {
-  const [events, setEvents] = useState([]);
-  const [socket, setSocket] = useState(null);
+  const [events, setEvents] = useState([]); // Array of event objects
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   // Fetch events from the backend
   const fetchEvents = async () => {
     try {
-      const res = await axios.get('/api/sessions', {
-        headers: {
-          Authorization: `Bearer ${getAuthToken()}`,
-        },
-      });
-      // Assuming the backend returns events in a compatible format
-      setEvents(res.data.sessions.map(session => ({
-        id: session._id,
-        title: session.title,
-        start: session.startDate, // Ensure proper date format
-        end: session.endDate,
-        extendedProps: {
-          description: session.description,
-          creator: session.creator.username,
-        },
-      })));
+      const res = await axios.get('/api/events'); // Replace with your actual endpoint
+      setEvents(res.data.events);
       setLoading(false);
-    } catch (error) {
-      console.error('Error fetching events:', error);
+    } catch (err) {
+      console.error('Error fetching events:', err.response?.data || err.message);
+      setError('Failed to load events.');
       setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchEvents();
-
-    // Initialize Socket.io connection
-    const newSocket = io(SOCKET_SERVER_URL, {
-      query: { token: getAuthToken() },
-    });
-    setSocket(newSocket);
-
-    // Listen for event updates
-    newSocket.on('eventCreated', (event) => {
-      setEvents(prevEvents => [...prevEvents, event]);
-    });
-
-    newSocket.on('eventUpdated', (updatedEvent) => {
-      setEvents(prevEvents => prevEvents.map(event => event.id === updatedEvent.id ? updatedEvent : event));
-    });
-
-    newSocket.on('eventDeleted', (deletedEventId) => {
-      setEvents(prevEvents => prevEvents.filter(event => event.id !== deletedEventId));
-    });
-
-    return () => {
-      newSocket.disconnect();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Create a new event
-  const createEvent = async (eventData) => {
+  // Add a new event
+  const addEvent = async (newEvent) => {
     try {
-      const res = await axios.post('/api/sessions', eventData, {
+      const res = await axios.post('/api/events', newEvent, {
         headers: {
-          Authorization: `Bearer ${getAuthToken()}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // If authentication is required
         },
       });
-      // The backend should emit 'eventCreated' via Socket.io
+      setEvents([...events, res.data.event]);
+      toast.success('Event added successfully!');
       return { success: true };
-    } catch (error) {
-      console.error('Error creating event:', error.response.data);
-      return { success: false, message: error.response.data.message };
+    } catch (err) {
+      console.error('Error adding event:', err.response?.data || err.message);
+      toast.error(err.response?.data?.message || 'Failed to add event.');
+      return { success: false, message: err.response?.data?.message || 'Failed to add event.' };
     }
   };
 
   // Update an existing event
   const updateEvent = async (eventId, updatedData) => {
     try {
-      const res = await axios.put(`/api/sessions/${eventId}/rename`, updatedData, {
+      const res = await axios.put(`/api/events/${eventId}`, updatedData, {
         headers: {
-          Authorization: `Bearer ${getAuthToken()}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      // The backend should emit 'eventUpdated' via Socket.io
+      setEvents(events.map(event => event._id === eventId ? res.data.event : event));
+      toast.success('Event updated successfully!');
       return { success: true };
-    } catch (error) {
-      console.error('Error updating event:', error.response.data);
-      return { success: false, message: error.response.data.message };
+    } catch (err) {
+      console.error('Error updating event:', err.response?.data || err.message);
+      toast.error(err.response?.data?.message || 'Failed to update event.');
+      return { success: false, message: err.response?.data?.message || 'Failed to update event.' };
     }
   };
 
   // Delete an event
   const deleteEvent = async (eventId) => {
     try {
-      await axios.delete(`/api/sessions/${eventId}`, {
+      await axios.delete(`/api/events/${eventId}`, {
         headers: {
-          Authorization: `Bearer ${getAuthToken()}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      // The backend should emit 'eventDeleted' via Socket.io
+      setEvents(events.filter(event => event._id !== eventId));
+      toast.success('Event deleted successfully!');
       return { success: true };
-    } catch (error) {
-      console.error('Error deleting event:', error.response.data);
-      return { success: false, message: error.response.data.message };
+    } catch (err) {
+      console.error('Error deleting event:', err.response?.data || err.message);
+      toast.error(err.response?.data?.message || 'Failed to delete event.');
+      return { success: false, message: err.response?.data?.message || 'Failed to delete event.' };
     }
   };
 
@@ -128,9 +89,11 @@ export const CalendarProvider = ({ children }) => {
       value={{
         events,
         loading,
-        createEvent,
+        error,
+        addEvent,
         updateEvent,
         deleteEvent,
+        fetchEvents, // Optional: Expose fetchEvents if needed
       }}
     >
       {children}
