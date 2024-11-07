@@ -9,9 +9,11 @@ const authRoutes = require('./routes/authRoutes');
 const sessionRoutes = require('./routes/sessionRoutes');
 const userRoutes = require('./routes/userRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
-const gameRoutes = require('./routes/gameRoutes'); // <-- Game Routes
+const gameRoutes = require('./routes/gameRoutes');
+const movieRoutes = require('./routes/movieRoutes'); // <-- Movie Routes
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 
 // Load environment variables
 dotenv.config();
@@ -37,12 +39,16 @@ app.use(cors({
 app.use(express.json());
 app.use(passport.initialize());
 
+// Serve static files (movie posters)
+app.use('/uploads/movies', express.static(path.join(__dirname, 'uploads/movies')));
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/sessions', sessionRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/payments', paymentRoutes);
-app.use('/api/games', gameRoutes); // <-- Use Game Routes
+app.use('/api/games', gameRoutes);
+app.use('/api/movies', movieRoutes); // <-- Use Movie Routes
 
 // Handle undefined routes
 app.use((req, res, next) => {
@@ -55,7 +61,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Internal server error.' });
 });
 
-// Socket.io Connection Handling
+// Socket.io Connection Handling (Optional: Implement real-time features if needed)
 io.use((socket, next) => {
   // Middleware to authenticate socket connections using JWT
   const token = socket.handshake.query.token;
@@ -76,7 +82,7 @@ io.use((socket, next) => {
   });
 });
 
-// Export io to use in routes/controllers
+// Export io to use in routes/controllers if needed
 app.set('io', io);
 
 // Start the server
