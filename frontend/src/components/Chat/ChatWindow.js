@@ -8,25 +8,53 @@ const ChatWindow = ({ sessionId, user }) => {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
+        if (!sessionId || !user) return; // Ensure sessionId and user are available
+
         // Join the session room
         socket.emit('joinSession', { sessionId, userId: user.id });
 
-        // Listen for new messages
-        socket.on('newMessage', (msg) => {
+        // Handler for receiving new messages
+        const handleNewMessage = (msg) => {
             setMessages((prevMessages) => [...prevMessages, msg]);
-        });
 
-        return () => {
-            socket.off('newMessage');
+            // If the message is not from the bot, you might want to trigger a bot response
+            if (msg.user !== 'Bot') {
+                // Example: You can emit an event to request a bot suggestion
+                // Alternatively, handle it based on your backend implementation
+                // socket.emit('requestBotSuggestion', { sessionId, message: msg.text });
+            }
         };
-    }, [sessionId, user.id]);
+
+        // Listen for 'newMessage' events from the server
+        socket.on('newMessage', handleNewMessage);
+
+        // Optionally, listen for 'botSuggestion' events if implemented
+        const handleBotSuggestion = (suggestion) => {
+            const botMessage = { user: 'Bot', text: suggestion, timestamp: new Date() };
+            setMessages((prevMessages) => [...prevMessages, botMessage]);
+        };
+
+        socket.on('botSuggestion', handleBotSuggestion);
+
+        // Cleanup listeners on component unmount or when dependencies change
+        return () => {
+            socket.off('newMessage', handleNewMessage);
+            socket.off('botSuggestion', handleBotSuggestion);
+        };
+    }, [sessionId, user]);
 
     const sendMessage = () => {
-        if(message.trim() !== ''){
+        if (message.trim() !== '') {
             const msg = { user: user.username, text: message, timestamp: new Date() };
             socket.emit('chatMessage', { sessionId, message: msg });
             setMessages((prevMessages) => [...prevMessages, msg]);
             setMessage('');
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
         }
     };
 
@@ -50,6 +78,7 @@ const ChatWindow = ({ sessionId, user }) => {
                 placeholder='Type your message...'
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
                 action={
                     <Button color='blue' onClick={sendMessage}>
                         Send
