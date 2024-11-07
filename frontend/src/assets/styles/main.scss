@@ -1,0 +1,30 @@
+// frontend/src/assets/styles/main.scss
+
+/* Import variables and mixins if any */
+@import 'variables.scss';
+
+/* Global Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
+  color: #333333;
+}
+
+.ui.segment {
+  border-radius: 8px;
+}
+
+.ui.header {
+  color: #4CAF50;
+}
+
+/* Additional global styles */
+
+/* Games Specific Styles */
+.games-list {
+  margin-top: 2rem;
+}
+
+.game-card {
+  /* Custom styles for game cards */
+}

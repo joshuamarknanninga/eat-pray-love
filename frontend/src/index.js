@@ -1,10 +1,18 @@
 // frontend/src/index.js
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration'; // Create this file based on CRA's PWA setup
-import 'semantic-ui-css/semantic.min.css';
+import 'semantic-ui-css/semantic.min.css'; // Import Semantic UI CSS
+import 'react-toastify/dist/ReactToastify.css'; // Import React Toastify CSS
+import './assets/styles/main.scss'; // Import your custom styles
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { ToastContainer } from 'react-toastify';
 
-serviceWorkerRegistration.register();
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+    <ToastContainer />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
