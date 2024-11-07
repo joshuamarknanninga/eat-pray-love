@@ -2,12 +2,13 @@
 
 import React, { useContext, useState } from 'react';
 import { MoviesContext } from './MoviesContext';
-import { Card, Image, Button, Loader, Message, Modal, Form } from 'semantic-ui-react';
+import { Card, Button, Loader, Message, Modal, Form, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import MovieCard from './MovieCard'; // Import the MovieCard component
 
 const MoviesList = () => {
-  const { movies, loading, favorites, addToFavorites, removeFromFavorites } = useContext(MoviesContext);
+  const { movies, loading, createMovie } = useContext(MoviesContext);
   const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -18,10 +19,6 @@ const MoviesList = () => {
   });
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
-
-  const isFavorite = (movieId) => {
-    return favorites.some(movie => movie._id === movieId);
-  };
 
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => {
@@ -55,7 +52,7 @@ const MoviesList = () => {
       return;
     }
 
-    const res = await addToFavorites(formData);
+    const res = await createMovie(formData);
     if (res.success) {
       toast.success('Movie added successfully!');
       handleClose();
@@ -73,39 +70,12 @@ const MoviesList = () => {
   return (
     <div>
       <Button primary onClick={handleOpen} style={{ marginBottom: '1rem' }}>
-        Add New Movie
+        <Icon name="plus" /> Add New Movie
       </Button>
       {error && <Message error header="Error" content={error} />}
-      <Card.Group itemsPerRow={4}>
+      <Card.Group itemsPerRow={4} stackable>
         {movies.map(movie => (
-          <Card key={movie._id}>
-            {movie.poster ? (
-              <Image src={movie.poster} wrapped ui={false} alt={`${movie.title} Poster`} />
-            ) : (
-              <Image src="/placeholder.png" wrapped ui={false} alt="No Poster Available" />
-            )}
-            <Card.Content>
-              <Card.Header>{movie.title}</Card.Header>
-              <Card.Meta>Genre: {movie.genre}</Card.Meta>
-              <Card.Description>
-                {movie.description.length > 100 ? movie.description.substring(0, 100) + '...' : movie.description}
-              </Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-              <Button as={Link} to={`/movies/${movie._id}`} primary>
-                View Details
-              </Button>
-              {isFavorite(movie._id) ? (
-                <Button color="red" onClick={() => removeFromFavorites(movie._id)} style={{ marginLeft: '0.5rem' }}>
-                  Remove Favorite
-                </Button>
-              ) : (
-                <Button color="green" onClick={() => addToFavorites(movie._id)} style={{ marginLeft: '0.5rem' }}>
-                  Add to Favorites
-                </Button>
-              )}
-            </Card.Content>
-          </Card>
+          <MovieCard key={movie._id} movie={movie} /> // Use the MovieCard component
         ))}
       </Card.Group>
 

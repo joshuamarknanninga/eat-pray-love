@@ -7,16 +7,13 @@ const passport = require('./utils/passport'); // Passport configuration
 const connectDB = require('./utils/db'); // Database connection
 const authRoutes = require('./routes/authRoutes');
 const sessionRoutes = require('./routes/sessionRoutes');
-const userRoutes = require('./routes/userRoutes');
+const userRoutes = require('./routes/userRoutes'); // <-- User Routes
 const paymentRoutes = require('./routes/paymentRoutes');
 const gameRoutes = require('./routes/gameRoutes');
-const movieRoutes = require('./routes/movieRoutes'); // <-- Movie Routes
+const movieRoutes = require('./routes/movieRoutes'); // Movie Routes
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
-
-// Load environment variables
-dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
@@ -27,6 +24,9 @@ const io = socketIo(server, {
     credentials: true,
   },
 });
+
+// Load environment variables
+dotenv.config();
 
 // Connect to MongoDB
 connectDB();
@@ -45,10 +45,10 @@ app.use('/uploads/movies', express.static(path.join(__dirname, 'uploads/movies')
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/sessions', sessionRoutes);
-app.use('/api/users', userRoutes);
+app.use('/api/users', userRoutes); // <-- Use User Routes
 app.use('/api/payments', paymentRoutes);
 app.use('/api/games', gameRoutes);
-app.use('/api/movies', movieRoutes); // <-- Use Movie Routes
+app.use('/api/movies', movieRoutes);
 
 // Handle undefined routes
 app.use((req, res, next) => {
