@@ -1,0 +1,36 @@
+/* frontend/src/assets/styles/DashboardPage.css */
+
+/* Center the loader */
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Style for favorite movie images */
+  .list > .item > .image {
+    border-radius: 5px;
+  }
+  
+  /* Hover effect for list items */
+  .list > .item:hover {
+    background-color: #f9f9f9;
+  }
+  
+  /* Quick Actions Segments */
+  .segment.placeholder {
+    height: 150px;
+  }
+  
+  .segment.placeholder .header {
+    margin-top: 1.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    /* Adjust grid columns for mobile */
+    .ui.grid > .column {
+      width: 100% !important;
+    }
+  }
+  

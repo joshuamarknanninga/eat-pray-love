@@ -1,2 +1,65 @@
-# Auto detect text files and perform LF normalization
+# Set the default behavior, in case people don't have core.autocrlf set.
 * text=auto
+
+# Explicitly declare text files to ensure consistent line endings.
+*.js     text eol=lf
+*.jsx    text eol=lf
+*.ts     text eol=lf
+*.tsx    text eol=lf
+*.json   text eol=lf
+*.css    text eol=lf
+*.scss   text eol=lf
+*.html   text eol=lf
+*.md     text eol=lf
+*.yml    text eol=lf
+*.yaml   text eol=lf
+*.xml    text eol=lf
+
+# Declare binary files to prevent Git from attempting to perform any conversions.
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.svg    binary
+*.ico    binary
+*.ttf    binary
+*.woff   binary
+*.woff2  binary
+*.eot    binary
+*.otf    binary
+*.pdf    binary
+*.zip    binary
+*.tar    binary
+*.gz     binary
+
+# Handle GraphQL files as text
+*.graphql text eol=lf
+*.gql     text eol=lf
+
+# Treat specific files as binary to avoid merge conflicts
+package-lock.json binary
+yarn.lock        binary
+
+# Ignore lock files from language statistics (GitHub Linguist)
+*.lock linguist-vendored
+
+# Linguist overrides to exclude certain files or directories from language stats
+# Note: node_modules should already be in .gitignore
+# You can also exclude build directories if present
+/build/ linguist-vendored
+/dist/  linguist-vendored
+/public/build/ linguist-vendored
+
+# Custom diff settings for specific file types (optional)
+# For example, treat .md files as plain text without any special diff
+*.md diff=astextplain
+
+# Disable diff for binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
+
+# Ensure GitHub recognizes the project as a Node.js project
+# (This is generally automatic based on the presence of package.json)
