@@ -1,103 +1,95 @@
-// frontend/src/components/Auth/AuthContext.js
+// src/contexts/AuthContext.js
 
-import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// Create the Auth Context
-export const AuthContext = createContext();
+// Create the AuthContext
+const AuthContext = createContext();
 
-// Auth Provider Component
+// AuthProvider component that wraps your app and makes auth object available to any child component that calls useAuth().
 export const AuthProvider = ({ children }) => {
+  // State to hold authentication information
   const [authState, setAuthState] = useState({
-    token: localStorage.getItem('token'),
     user: null,
-    loading: true,
+    isAuthenticated: false,
   });
 
-  // Fetch user data if token exists
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (authState.token) {
-        try {
-          const res = await axios.get('/api/auth/me', {
-            headers: {
-              Authorization: `Bearer ${authState.token}`,
-            },
-          });
-          setAuthState({
-            ...authState,
-            user: res.data.user,
-            loading: false,
-          });
-        } catch (error) {
-          console.error('Error fetching user:', error);
-          logout();
-        }
-      } else {
-        setAuthState({ ...authState, loading: false });
-      }
-    };
+  // Function to register a new user
+  const register = async ({ username, email, password }) => {
+    try {
+      // Replace '/api/register' with your actual API endpoint
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
 
-    fetchUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      const data = await response.json();
+
+      if (response.ok) {
+        // Registration successful
+        setAuthState({ user: data.user, isAuthenticated: true });
+        return { success: true };
+      } else {
+        // Registration failed
+        return { success: false, message: data.message || 'Registration failed' };
+      }
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  };
+
+  // Function to log in a user
+  const login = async ({ email, password }) => {
+    try {
+      // Replace '/api/login' with your actual API endpoint
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Login successful
+        setAuthState({ user: data.user, isAuthenticated: true });
+        return { success: true };
+      } else {
+        // Login failed
+        return { success: false, message: data.message || 'Login failed' };
+      }
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  };
+
+  // Function to log out a user
+  const logout = () => {
+    setAuthState({ user: null, isAuthenticated: false });
+  };
+
+  // Persist auth state using localStorage
+  useEffect(() => {
+    const storedAuthState = JSON.parse(localStorage.getItem('authState'));
+    if (storedAuthState && storedAuthState.isAuthenticated) {
+      setAuthState(storedAuthState);
+    }
   }, []);
 
-  // Login function
-  const login = async (credentials) => {
-    try {
-      const res = await axios.post('/api/auth/login', credentials);
-      localStorage.setItem('token', res.data.token);
-      setAuthState({
-        ...authState,
-        token: res.data.token,
-        user: res.data.user,
-        loading: false,
-      });
-      return { success: true };
-    } catch (error) {
-      console.error('Login error:', error.response.data);
-      return { success: false, message: error.response.data.message };
-    }
-  };
-
-  // Register function
-  const register = async (userData) => {
-    try {
-      const res = await axios.post('/api/auth/register', userData);
-      localStorage.setItem('token', res.data.token);
-      setAuthState({
-        ...authState,
-        token: res.data.token,
-        user: res.data.user,
-        loading: false,
-      });
-      return { success: true };
-    } catch (error) {
-      console.error('Registration error:', error.response.data);
-      return { success: false, message: error.response.data.message };
-    }
-  };
-
-  // Logout function
-  const logout = () => {
-    localStorage.removeItem('token');
-    setAuthState({
-      token: null,
-      user: null,
-      loading: false,
-    });
-  };
+  useEffect(() => {
+    localStorage.setItem('authState', JSON.stringify(authState));
+  }, [authState]);
 
   return (
-    <AuthContext.Provider
-      value={{
-        authState,
-        login,
-        register,
-        logout,
-      }}
-    >
+    <AuthContext.Provider value={{ authState, register, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+// Custom hook to use the AuthContext and access authState, register, login, and logout
+export const useAuth = () => useContext(AuthContext);

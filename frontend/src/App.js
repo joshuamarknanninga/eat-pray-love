@@ -16,6 +16,9 @@ import GamesPage from './pages/GamesPage';
 import NotFound from './pages/NotFound';
 import Navbar from './components/Navbar';
 
+// Remove this line:
+// import Routes from './Routes';
+
 // Import context providers
 import { AuthProvider } from './contexts/AuthContext';
 import { MoviesProvider } from './contexts/MoviesContext';
@@ -29,7 +32,7 @@ const App = () => {
     <AuthProvider>
       <MoviesProvider>
         <Router>
-          <Navbar /> {/* Optional: Include a Navbar */}
+          <Navbar />
           <Routes>
             {/* Home Route */}
             <Route path="/" element={<Home />} />
@@ -83,7 +86,7 @@ const App = () => {
             {/* 404 Not Found */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-          <ToastContainer /> {/* Toast Notifications */}
+          <ToastContainer />
         </Router>
       </MoviesProvider>
     </AuthProvider>

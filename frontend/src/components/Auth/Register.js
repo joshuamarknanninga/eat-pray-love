@@ -1,12 +1,12 @@
 // frontend/src/components/Auth/Register.js
 
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Message, Segment } from 'semantic-ui-react';
-import { AuthContext } from './AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate, Navigate } from 'react-router-dom';
 
 const Register = () => {
-  const { authState, register } = useContext(AuthContext);
+  const { authState, register } = useAuth();
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState({
@@ -18,15 +18,16 @@ const Register = () => {
 
   const [error, setError] = useState('');
 
-  if (authState.user) {
-    return <Redirect to="/dashboard" />;
+  if (authState.isAuthenticated) {
+    return <Navigate to="/dashboard" />;
   }
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setError('');
     const { username, email, password, confirmPassword } = userData;
 

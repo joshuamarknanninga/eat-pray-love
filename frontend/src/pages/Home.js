@@ -1,6 +1,6 @@
 // frontend/src/pages/Home.js
 
-import React, { useContext } from 'react';
+import React from 'react';
 import { Container, Header, Button, Segment, Grid, Icon, Image, Divider } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -9,6 +9,7 @@ import './HomePage.css'; // Import custom styles
 const Home = () => {
     // Accessing AuthContext to check authentication status
     const { authState } = useAuth();
+    const { isAuthenticated } = authState;
   
     return (
       <Container textAlign="center" style={{ marginTop: '2rem' }}>
