@@ -1,6 +1,6 @@
 // frontend/src/pages/Dashboard.js
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import {
   Container,
   Header,
@@ -13,7 +13,7 @@ import {
   Message,
   Icon,
 } from 'semantic-ui-react';
-import { AuthContext } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import { MoviesContext } from '../contexts/MoviesContext';
 import { CalendarContext } from '../contexts/CalendarContext';
 import { Link } from 'react-router-dom';
@@ -22,7 +22,7 @@ import './DashboardPage.css'; // Import custom styles
 
 const Dashboard = () => {
     // Accessing contexts
-    const { user, loading: authLoading, error: authError } = useContext(AuthContext);
+    const { authState } = useAuth();
     const {
       favoriteMovies,
       loading: moviesLoading,

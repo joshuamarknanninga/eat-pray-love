@@ -3,7 +3,7 @@
 /* Hero Segment Styling */
 .hero-segment {
     padding: 8em 0em;
-    background-image: url('/images/hero-background.jpg'); /* Ensure this image exists */
+    background-image: url('../images/hero-background.jpg'); /* Ensure this image exists */
     background-size: cover;
     background-position: center;
     color: white;
@@ -21,6 +21,10 @@
     font-weight: normal;
   }
   
+  .hero {
+    background-image: url('../images/hero-background.jpg');
+  }
+
   /* Features Section Styling */
   .features-segment .icon {
     margin-bottom: 1em;
