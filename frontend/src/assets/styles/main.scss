@@ -4,7 +4,7 @@
 @import 'variables.scss';
 
 /* Import Roboto font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 /* Global Styles */
 
@@ -43,10 +43,63 @@ body {
   margin-top: 2rem;
 }
 
+/* Movie Card Styles */
 .movie-card {
-  /* Custom styles for movie cards */
+  background: linear-gradient(135deg, $gradient-start, $gradient-end);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px $shadow-color;
+  overflow: hidden;
+  @include transition(all);
+
+  /* Nested elements inside .movie-card */
+  .movie-image {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    @include transition(filter);
+
+    /* Add a gentle zoom effect on hover */
+    &:hover {
+      filter: brightness(105%);
+    }
+  }
+
+  .movie-details {
+    padding: 15px;
+    text-align: center;
+
+    h3 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #666;
+    }
+  }
+
+  /* Hover effect on the entire card */
+  &:hover {
+    animation: cardHover 0.3s forwards;
+    box-shadow: 0 8px 12px $shadow-color;
+
+    .movie-image {
+      /* Slightly increase brightness */
+      filter: brightness(110%);
+    }
+  }
 }
+
+/* Optional: Responsive design */
+@media (max-width: 768px) {
+  .movie-card {
+    margin: 20px auto;
+  }
 
 .favorite-movies {
   margin-top: 2rem;
+}
 }
