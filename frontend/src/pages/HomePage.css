@@ -1,0 +1,70 @@
+/* frontend/src/pages/HomePage.css */
+
+/* Hero Segment Styling */
+.hero-segment {
+    padding: 8em 0em;
+    background-image: url('/images/hero-background.jpg'); /* Ensure this image exists */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  }
+  
+  /* Adjusting Header Fonts */
+  .hero-segment .header {
+    font-size: 4em;
+    font-weight: bold;
+  }
+  
+  .hero-segment .header + .header {
+    font-size: 1.7em;
+    font-weight: normal;
+  }
+  
+  /* Features Section Styling */
+  .features-segment .icon {
+    margin-bottom: 1em;
+  }
+  
+  .features-segment .header {
+    margin-top: 1em;
+  }
+  
+  /* Testimonials Segment Styling */
+  .testimonials-segment {
+    padding: 4em 0em;
+    background-color: #1b1c1d; /* Dark background for contrast */
+    color: white;
+  }
+  
+  .testimonials-segment .header {
+    margin-bottom: 2em;
+  }
+  
+  .testimonials-segment .image {
+    margin-bottom: 1em;
+  }
+  
+  /* Call to Action Segment Styling */
+  @media (max-width: 767px) {
+    .hero-segment {
+      padding: 4em 1em;
+    }
+  
+    .hero-segment .header {
+      font-size: 2.5em;
+    }
+  
+    .hero-segment .header + .header {
+      font-size: 1.2em;
+    }
+  
+    .features-segment {
+      padding: 2em 0em;
+    }
+  
+    .testimonials-segment {
+      padding: 2em 0em;
+    }
+  }
+  

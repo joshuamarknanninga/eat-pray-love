@@ -17,7 +17,7 @@ import {
 } from 'semantic-ui-react';
 import { CalendarContext } from '../contexts/CalendarContext';
 import { toast } from 'react-toastify';
-import './CalendarPage.css'; // Import custom styles
+import '.pages/CalendarPage.css'; // Import custom styles
 
 const CalendarPage = () => {
   // Accessing CalendarContext

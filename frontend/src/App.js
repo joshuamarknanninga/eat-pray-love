@@ -1,7 +1,7 @@
 // frontend/src/App.js
 
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Routes, Route} from 'react-router-dom';
 import GlobalState from './contexts/GlobalState'; // Import GlobalState
 
 // Import your pages and components
@@ -26,9 +26,9 @@ const App = () => {
     <GlobalState>
       <Router>
         <Navbar /> {/* Optional: Include a Navbar */}
-        <Switch>
+        <Routes>
           {/* Home Route */}
-          <Route exact path="/" component={Home} />
+          <Route path="/" element={<Home />} />
 
           {/* Public Routes */}
           <Route path="/login" component={Login} />
@@ -43,7 +43,7 @@ const App = () => {
 
           {/* 404 Not Found */}
           <Route component={NotFound} />
-        </Switch>
+        </Routes>
       </Router>
       <ToastContainer /> {/* Toast Notifications */}
     </GlobalState>

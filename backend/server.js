@@ -6,7 +6,7 @@ const socketIo = require('socket.io');
 const passport = require('./utils/passport'); // Passport configuration
 const connectDB = require('./utils/db'); // Database connection
 const authRoutes = require('./routes/authRoutes');
-const sessionRoutes = require('./routes/sessionRoutes');
+const sessionRoutes = require('./routes/sessionRoutes'); // Import sessionRoutes once
 const userRoutes = require('./routes/userRoutes'); // <-- User Routes
 const paymentRoutes = require('./routes/paymentRoutes');
 const gameRoutes = require('./routes/gameRoutes');
@@ -44,7 +44,7 @@ app.use('/uploads/movies', express.static(path.join(__dirname, 'uploads/movies')
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/sessions', sessionRoutes);
+app.use('/api', sessionRoutes); // Use the single import of sessionRoutes here
 app.use('/api/users', userRoutes); // <-- Use User Routes
 app.use('/api/payments', paymentRoutes);
 app.use('/api/games', gameRoutes);
@@ -86,5 +86,6 @@ io.use((socket, next) => {
 app.set('io', io);
 
 // Start the server
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(process.env.PORT || 5000, () => {
+  console.log(`Server running on port ${process.env.PORT || 5000}`);
+});

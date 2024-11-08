@@ -1,12 +1,13 @@
 // frontend/src/components/Auth/PrivateRoute.js
 
 import React, { useContext } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
 
 // A wrapper for <Route> that redirects to the login screen if you're not authenticated.
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRoute = ({ element: Component, ...rest }) => {
   const { authState } = useContext(AuthContext);
+  const location = useLocation(); // Get the current location
 
   if (authState.loading) {
     return <div>Loading...</div>; // You can replace this with a spinner or loader component
@@ -15,15 +16,13 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props) =>
+      element={
         authState.user ? (
-          <Component {...props} />
+          <Component />
         ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: props.location },
-            }}
+          <Navigate
+            to="/login"
+            state={{ from: location }} // Use location to pass current location
           />
         )
       }
@@ -32,3 +31,4 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 };
 
 export default PrivateRoute;
+

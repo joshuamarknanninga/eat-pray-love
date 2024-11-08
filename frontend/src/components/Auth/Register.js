@@ -3,11 +3,11 @@
 import React, { useState, useContext } from 'react';
 import { Form, Button, Message, Segment } from 'semantic-ui-react';
 import { AuthContext } from './AuthContext';
-import { useHistory, Redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const { authState, register } = useContext(AuthContext);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [userData, setUserData] = useState({
     username: '',
@@ -38,7 +38,7 @@ const Register = () => {
 
     const res = await register({ username, email, password });
     if (res.success) {
-      history.push('/dashboard');
+      navigate('/dashboard');
     } else {
       setError(res.message || 'Registration failed. Please try again.');
     }

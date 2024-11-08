@@ -2,7 +2,7 @@
 
 import React, { useEffect, useContext } from 'react';
 import { AuthContext } from './AuthContext';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const Logout = () => {
   const { logout } = useContext(AuthContext);
@@ -12,7 +12,7 @@ const Logout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <Redirect to="/login" />;
+  return <Navigate to="/login" />;
 };
 
 export default Logout;

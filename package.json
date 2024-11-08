@@ -3,34 +3,33 @@
     "version": "1.0.0",
     "private": true,
     "workspaces": [
-      "frontend",
-      "backend"
+        "frontend",
+        "backend"
     ],
     "scripts": {
-      "start": "concurrently \"npm run server\" \"npm run client\"",
-      "server": "npm run start --workspace=backend",
-      "client": "npm run start --workspace=frontend",
-      "install-all": "npm install",
-      "build": "npm run build --workspace=frontend",
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "heroku-postbuild": "npm run build --workspace=frontend"
+        "start": "concurrently \"npm run server\" \"npm run client\"",
+        "server": "npm run start --workspace=backend",
+        "client": "npm run start --workspace=frontend",
+        "install-all": "npm install",
+        "build": "npm run build --workspace=frontend",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "heroku-postbuild": "npm run build --workspace=frontend"
     },
     "dependencies": {
-      "concurrently": "^8.2.0"
+        "concurrently": "^8.2.0",
+        "react-router-dom": "^6.28.0"
     },
-    "devDependencies": {},
     "engines": {
-      "node": ">=14.0.0"
+        "node": ">=14.0.0"
     },
     "repository": {
-      "type": "git",
-      "url": "git+https://github.com/yourusername/eat-pray-love.git"
+        "type": "git",
+        "url": "git+https://github.com/yourusername/eat-pray-love.git"
     },
     "author": "Your Name",
     "license": "MIT",
     "bugs": {
-      "url": "https://github.com/yourusername/eat-pray-love/issues"
+        "url": "https://github.com/yourusername/eat-pray-love/issues"
     },
     "homepage": "https://github.com/yourusername/eat-pray-love#readme"
-  }
-  
+}

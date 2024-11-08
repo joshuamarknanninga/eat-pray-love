@@ -3,7 +3,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-const sessionController = require('../controllers/sessionController');
+const { getSessionDetails } = require('../controllers/sessionController');
 
 // Middleware to check if the user is admin (optional)
 const isAdmin = (req, res, next) => {
@@ -12,6 +12,9 @@ const isAdmin = (req, res, next) => {
     }
     return res.status(403).json({ message: 'Access denied. Admins only.' });
 };
+
+// Ensure that the route has a proper callback
+router.get('/session/:id', getSessionDetails);
 
 /**
  * @route   POST /api/sessions
