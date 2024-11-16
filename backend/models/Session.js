@@ -1,23 +1,25 @@
 // backend/models/Session.js
 const mongoose = require('mongoose');
 
-const SessionSchema = new mongoose.Schema({
-    sessionName: {
+const SessionSchema = new mongoose.Schema(
+    {
+      sessionName: {
         type: String,
-        required: true
-    },
-    participants: [{
+        required: true,
+      },
+      createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
-    createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true,
+      },
+      participants: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+        },
+      ],
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-});
+    { timestamps: true }
+  );
 
 module.exports = mongoose.model('Session', SessionSchema);
