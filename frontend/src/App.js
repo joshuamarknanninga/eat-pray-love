@@ -15,6 +15,8 @@ import MoviesPage from './pages/MoviesPage';
 import GamesPage from './pages/GamesPage';
 import NotFound from './pages/NotFound';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer/Footer';
+
 
 // Remove this line:
 // import Routes from './Routes';
@@ -22,6 +24,7 @@ import Navbar from './components/Navbar';
 // Import context providers
 import { AuthProvider } from './contexts/AuthContext';
 import { MoviesProvider } from './contexts/MoviesContext';
+import { ChatProvider } from './contexts/ChatContext';
 
 // Import ToastContainer for notifications
 import { ToastContainer } from 'react-toastify';
@@ -31,19 +34,20 @@ const App = () => {
   return (
     <AuthProvider>
       <MoviesProvider>
-        <Router>
-          <Navbar />
-          <Routes>
-            {/* Home Route */}
-            <Route path="/" element={<Home />} />
+        <ChatProvider>
 
-            {/* Public Routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+          <Router>
+            <Navbar />
+            <Routes>
+              {/* Home Route */}
+              <Route path="/" element={<Home />} />
 
-            {/* Protected Routes */}
-            <Route
-              path="/dashboard"
+              {/* Public Routes */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+
+              {/* Protected Routes */}
+            <Route path="/dashboard"
               element={
                 <PrivateRoute>
                   <Dashboard />
@@ -88,6 +92,7 @@ const App = () => {
           </Routes>
           <ToastContainer />
         </Router>
+        </ChatProvider>
       </MoviesProvider>
     </AuthProvider>
   );
