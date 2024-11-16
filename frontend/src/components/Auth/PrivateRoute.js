@@ -13,7 +13,7 @@ const PrivateRoute = ({ children }) => {
     return <div>Loading...</div>; // You can replace this with a spinner or loader component
   }
 
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  return isAuthenticated ? children : <Navigate to="/" />;
 };
 
 export default PrivateRoute;
