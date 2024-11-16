@@ -90,6 +90,7 @@ const App = () => {
             {/* 404 Not Found */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <Footer />
           <ToastContainer />
         </Router>
         </ChatProvider>
