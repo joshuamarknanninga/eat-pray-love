@@ -14,6 +14,8 @@ const movieRoutes = require('./routes/movieRoutes'); // Movie Routes
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
+const app = require('./app');
+const mongoose = require('mongoose');
 
 const app = express();
 const server = http.createServer(app);
@@ -29,7 +31,13 @@ const io = socketIo(server, {
 dotenv.config();
 
 // Connect to MongoDB
-connectDB();
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log('MongoDB connected');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch((err) => console.error(err));
 
 // Middleware
 app.use(cors({
