@@ -16,6 +16,7 @@
         "heroku-postbuild": "npm run build --workspace=frontend"
     },
     "dependencies": {
+        "bcryptjs": "^2.4.3",
         "concurrently": "^8.2.0",
         "react-router-dom": "^6.28.0",
         "stripe": "^17.3.1"
