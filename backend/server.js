@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config(); // Load environment variables
 const app = require('./app'); // Import the Express app from app.js
+const stripe = require('stripe')(process.env.sk_test_51PAaqjJoXyiPP9tyhK7kJm1FFAhk8kKdUD7CkB4G9ACVeFYdkivHPLiAv77WOec4ed7hSwi2toKLzZe1PWH5BcPO00ceVsdGVA);
 
 // Create HTTP server and attach Socket.IO
 const server = http.createServer(app);
