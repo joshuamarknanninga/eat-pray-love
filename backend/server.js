@@ -27,6 +27,8 @@ const io = socketIo(server, {
   },
 });
 
+require('dotenv').config();
+
 // Load environment variables
 dotenv.config();
 
