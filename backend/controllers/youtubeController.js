@@ -4,7 +4,7 @@ const axios = require('axios');
 
 exports.getFreeMovies = async (req, res) => {
   try {
-    const apiKey = process.env.YOUTUBE_API_KEY;
+    const apiKey = process.env.AIzaSyAchsPty1f9PcgGQNsYrePqaikbbrtqUyM;
     const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
       params: {
         part: 'snippet',
