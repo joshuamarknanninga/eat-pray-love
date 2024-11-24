@@ -1,0 +1,39 @@
+/* frontend/src/components/Home/Home.css */
+
+.home-container {
+    text-align: center;
+    padding: 50px;
+  }
+  
+  .home-container h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+  }
+  
+  .home-container p {
+    font-size: 1.5em;
+    margin-bottom: 40px;
+  }
+  
+  .home-buttons .btn {
+    margin: 10px;
+    padding: 15px 30px;
+    font-size: 1em;
+    text-decoration: none;
+  }
+  
+  .btn-primary {
+    background-color: #3498db;
+    color: #fff;
+  }
+  
+  .btn-secondary {
+    background-color: #2ecc71;
+    color: #fff;
+  }
+  
+  .btn-primary:hover,
+  .btn-secondary:hover {
+    opacity: 0.8;
+  }
+

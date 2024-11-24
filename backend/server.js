@@ -1,11 +1,13 @@
 // backend/server.js
 
+require('dotenv').config(); // Load environment variables
+const app = require('./app'); // Express app
+const mongoose = require('mongoose');
 const http = require('http');
 const socketIo = require('socket.io');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config(); // Load environment variables
-const app = require('./app'); // Import the Express app from app.js
+
+const MONGODB_URI = process.env.MONGODB_URI;
+const PORT = process.env.PORT || 5000;
 
 // Create HTTP server and attach Socket.IO
 const server = http.createServer(app);
@@ -17,38 +19,31 @@ const io = socketIo(server, {
   },
 });
 
-// Connect to MongoDB
+// Connect to MongoDB and start the server
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('MongoDB connected');
-    // Start the server after successful DB connection
-    server.listen(process.env.PORT || 5000, () => {
-      console.log(`Server running on port ${process.env.PORT || 5000}`);
+
+    // Start the server
+    server.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
     });
   })
   .catch((err) => console.error(err));
 
-// Socket.io Connection Handling
-io.use((socket, next) => {
-  // Middleware to authenticate socket connections using JWT
-  const token = socket.handshake.query.token;
-  if (token) {
-    // Verify token here (use jsonwebtoken or similar)
-    // For simplicity, we'll skip token verification in this example
-    socket.user = { id: 'userId', username: 'User' }; // Mock user
-    next();
-  } else {
-    next(new Error('Authentication error'));
-  }
-}).on('connection', (socket) => {
-  console.log(`User connected: ${socket.user.username}`);
+// Socket.IO Connection Handling
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  // Listen for chat messages from the client
+  socket.on('chat message', (msg) => {
+    // Broadcast the message to all connected clients
+    io.emit('chat message', msg);
+  });
 
   // Handle disconnection
   socket.on('disconnect', () => {
-    console.log(`User disconnected: ${socket.user.username}`);
+    console.log('User disconnected');
   });
 });
-
-// Export io to use in routes/controllers if needed
-app.set('io', io);
