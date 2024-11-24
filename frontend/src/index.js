@@ -1,7 +1,7 @@
 // frontend/src/index.js
 
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom/client';
 import App from './App';
 import 'semantic-ui-css/semantic.min.css'; // Import Semantic UI CSS
 import 'react-toastify/dist/ReactToastify.css'; // Import React Toastify CSS
@@ -12,7 +12,7 @@ import './index.css';
 // import { ToastContainer } from 'react-toastify';
 
 const rootElement = document.getElementById('root');
-const root = createRoot(rootElement);
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(<App />);
 
