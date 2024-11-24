@@ -13,33 +13,21 @@ const isAdmin = (req, res, next) => {
   return res.status(403).json({ message: 'Access denied. Admins only.' });
 };
 
-/**
- * @route   GET /api/users/profile
- * @desc    Get authenticated user's profile
- * @access  Private
- */
+
 router.get(
   '/profile',
   passport.authenticate('jwt', { session: false }),
   userController.getUserProfile
 );
 
-/**
- * @route   PUT /api/users/profile
- * @desc    Update authenticated user's profile
- * @access  Private
- */
 router.put(
   '/profile',
   passport.authenticate('jwt', { session: false }),
   userController.updateUserProfile
 );
 
-/**
- * @route   POST /api/users/favorites/:movieId
- * @desc    Add a movie to user's favorites
- * @access  Private
- */
+router.post('/register', userController.registerUser);
+
 router.post(
   '/favorites/:movieId',
   passport.authenticate('jwt', { session: false }),

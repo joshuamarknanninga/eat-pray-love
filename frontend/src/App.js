@@ -1,7 +1,7 @@
 // frontend/src/App.js
 
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ChatContextProvider from './contexts/ChatContext';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
@@ -18,10 +18,12 @@ function App() {
         <div className="App">
           <Navbar />
           <Switch>
+          <Routes>
             <Route exact path="/" component={Home} />
             <Route path="/chat" component={ChatComponent} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+            </Routes>
             {/* Add more routes as needed */}
             <Route component={NotFound} /> {/* Catch-all route for 404 */}
           </Switch>
