@@ -1,13 +1,23 @@
 // backend/server.js
 
-require('dotenv').config(); // Load environment variables
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+
 const app = require('./app'); // Express app
 const mongoose = require('mongoose');
 const http = require('http');
 const socketIo = require('socket.io');
 
 const MONGODB_URI = process.env.MONGODB_URI;
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
+
+// Log the MONGODB_URI to check if it's defined
+console.log('MONGODB_URI:', MONGODB_URI);
+
+if (!MONGODB_URI) {
+  console.error('Error: MONGODB_URI is not defined. Please set it in your .env file.');
+  process.exit(1);
+}
 
 // Create HTTP server and attach Socket.IO
 const server = http.createServer(app);
@@ -25,12 +35,10 @@ mongoose
   .then(() => {
     console.log('MongoDB connected');
 
-    // Start the server
-    server.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
+    // Start the server using 'server.listen'
+    server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
   })
-  .catch((err) => console.error(err));
+  .catch((err) => console.error('MongoDB connection error:', err));
 
 // Socket.IO Connection Handling
 io.on('connection', (socket) => {

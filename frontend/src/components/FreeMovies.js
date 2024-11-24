@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import fetchFreeMovies from './fetchFreeMovies';
+import fetchFreeMovies from '../utils/fetchFreeMovies';
 
 const FreeMovies = () => {
   const [movies, setMovies] = useState([]);
