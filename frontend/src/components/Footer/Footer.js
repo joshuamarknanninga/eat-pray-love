@@ -1,36 +1,27 @@
 // src/components/Footer.js
 
 import React from 'react';
-import { ReactComponent as FacebookIcon } from '../assets/icons/facebook.svg';
-import { ReactComponent as TwitterIcon } from '../assets/icons/twitter.svg';
-import { ReactComponent as InstagramIcon } from '../assets/icons/instagram.svg';
+import FacebookIcon from '../../assets/icons/facebook.svg';
+import TwitterIcon from '../../assets/icons/twitter.svg';
+import InstagramIcon from '../../assets/icons/instagram.svg';
 
 const Footer = () => {
   return (
-    <footer className="ui inverted vertical footer segment">
-      <div className="ui container">
-        <div className="ui stackable inverted divided grid">
-          <div className="three wide column">
-            <h4 className="ui inverted header">Connect</h4>
-            <div className="ui inverted link list">
-              <a href="https://facebook.com" className="item">
-                <FacebookIcon style={{ width: '24px', height: '24px', marginRight: '8px' }} />
-                Facebook
-              </a>
-              <a href="https://twitter.com" className="item">
-                <TwitterIcon style={{ width: '24px', height: '24px', marginRight: '8px' }} />
-                Twitter
-              </a>
-              <a href="https://instagram.com" className="item">
-                <InstagramIcon style={{ width: '24px', height: '24px', marginRight: '8px' }} />
-                Instagram
-              </a>
-            </div>
-          </div>
+      <footer className="footer">
+        <div className="social-icons">
+          <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+            <img src={FacebookIcon} alt="Facebook" width={24} height={24} />
+          </a>
+          <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+            <img src={TwitterIcon} alt="Twitter" width={24} height={24} />
+          </a>
+          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+            <img src={InstagramIcon} alt="Instagram" width={24} height={24} />
+          </a>
         </div>
-      </div>
-    </footer>
-  );
-};
+        <p>&copy; 2023 Eat Pray Love. All rights reserved.</p>
+      </footer>
+    );
+  };
 
 export default Footer;
