@@ -1,9 +1,9 @@
 // backend/server.js
 
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+require('dotenv').config(); // Load environment variables at the very top
 
-const app = require('./app'); // Express app
+const express = require('express');
+const app = express();
 const mongoose = require('mongoose');
 const http = require('http');
 const socketIo = require('socket.io');

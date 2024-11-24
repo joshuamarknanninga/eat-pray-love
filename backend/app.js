@@ -32,7 +32,7 @@ app.use('/api', sessionRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/games', gameRoutes);
-app.use('/api/movies', movieRoutes);
+app.use('/', movieRoutes);
 
 // Handle undefined routes
 app.use((req, res, next) => {
