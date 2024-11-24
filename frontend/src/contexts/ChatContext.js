@@ -1,4 +1,4 @@
-// frontend/src/components/contexts/ChatContext.js
+// frontend/src/contexts/ChatContext.js
 
 import React, { createContext, useState, useEffect } from 'react';
 import io from 'socket.io-client';
