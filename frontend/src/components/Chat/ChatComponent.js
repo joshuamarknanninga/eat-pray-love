@@ -2,7 +2,6 @@
 
 import React, { useContext, useState } from 'react';
 import { ChatContext } from '../../contexts/ChatContext';
-import ChatContextProvider from './contexts/ChatContext';
 
 const ChatComponent = () => {
   const { messages, sendMessage } = useContext(ChatContext);
@@ -21,7 +20,7 @@ const ChatComponent = () => {
       <div className="messages">
         {messages.map((msg, index) => (
           <div key={index} className="message">
-            <strong>{msg.username}:</strong> {msg.text}
+            {msg}
           </div>
         ))}
       </div>

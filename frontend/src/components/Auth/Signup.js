@@ -11,7 +11,7 @@ const Signup = () => {
   const [password, setPassword] = useState('');
 
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Only use useNavigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +24,7 @@ const Signup = () => {
 
     try {
       // Send a POST request to your backend API
-      const response = await axios.post('http://localhost:5000/api/users/register', {
+      const response = await axios.post('http://localhost:3001/api/users/register', {
         username,
         email,
         password,
@@ -32,7 +32,7 @@ const Signup = () => {
 
       // Handle success (e.g., redirect to login or home page)
       console.log(response.data.message);
-      navigate('/login');
+      navigate('/login'); // Use navigate instead of history.push
     } catch (err) {
       // Handle error
       if (err.response && err.response.data && err.response.data.message) {
