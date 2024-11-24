@@ -2,13 +2,45 @@
 
 const User = require('../models/User');
 const Movie = require('../models/Movie');
+const bcrypt = require('bcryptjs');
 
-/**
- * Get User Profile
- * @desc Retrieve the authenticated user's profile
- * @route GET /api/users/profile
- * @access Private
- */
+exports.registerUser = async (req, res) => {
+  const { username, email, password } = req.body;
+
+  // Basic validation
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: 'Please fill in all fields.' });
+  }
+
+  try {
+    // Check if user already exists
+    let user = await User.findOne({ email });
+
+    if (user) {
+      return res.status(400).json({ message: 'User already exists.' });
+    }
+
+    // Create new user
+    user = new User({
+      username,
+      email,
+      password,
+    });
+
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+
+    // Save user
+    await user.save();
+
+    res.status(201).json({ message: 'User registered successfully.' });
+  } catch (err) {
+    console.error('Error registering user:', err);
+    res.status(500).json({ message: 'Server error. Please try again later.' });
+  }
+};
+
 exports.getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select('-password').populate('favorites');
@@ -83,12 +115,7 @@ exports.addFavorite = async (req, res) => {
   }
 };
 
-/**
- * Remove a Movie from Favorites
- * @desc Remove a movie from the authenticated user's favorites
- * @route DELETE /api/users/favorites/:movieId
- * @access Private
- */
+
 exports.removeFavorite = async (req, res) => {
   const { movieId } = req.params;
 
