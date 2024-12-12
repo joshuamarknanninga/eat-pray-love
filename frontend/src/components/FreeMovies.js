@@ -1,17 +1,30 @@
+// frontend/src/components/FreeMovies.js
+
 import React, { useEffect, useState } from 'react';
 import fetchFreeMovies from '../utils/fetchFreeMovies';
 
 const FreeMovies = () => {
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const getMovies = async () => {
-      const movieList = await fetchFreeMovies();
-      setMovies(movieList);
+      try {
+        const movieList = await fetchFreeMovies();
+        setMovies(movieList);
+      } catch (err) {
+        setError('Failed to fetch movies.');
+      } finally {
+        setLoading(false);
+      }
     };
 
     getMovies();
   }, []);
+
+  if (loading) return <p>Loading movies...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div>

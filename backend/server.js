@@ -1,9 +1,9 @@
 // backend/server.js
 
-require('dotenv').config(); // Load environment variables at the very top
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '.env') }); // Load env vars
 
-const express = require('express');
-const app = express();
+const app = require('./app'); // Import the Express app
 const mongoose = require('mongoose');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -11,7 +11,6 @@ const socketIo = require('socket.io');
 const MONGODB_URI = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 3001;
 
-// Log the MONGODB_URI to check if it's defined
 console.log('MONGODB_URI:', MONGODB_URI);
 
 if (!MONGODB_URI) {
@@ -23,7 +22,7 @@ if (!MONGODB_URI) {
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: 'http://localhost:3000', // Update with your frontend URL
+    origin: 'http://localhost:3000', // Frontend URL
     methods: ['GET', 'POST'],
     credentials: true,
   },

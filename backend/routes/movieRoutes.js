@@ -3,6 +3,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
+const youtubeAPI = require('../utils/youtubeAPI');
 const movieController = require('../controllers/movieController');
 const multer = require('multer');
 const path = require('path');
